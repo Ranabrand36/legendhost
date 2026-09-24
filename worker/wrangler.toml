@@ -11,10 +11,11 @@ binding = "DB"
 database_name = "legend-host"
 database_id = "0403cdc3-0180-42b1-9e28-60338981b2c8"
 
-# Set secrets with `wrangler secret put`:
+# Optional secrets:
 # CLOUDFLARE_API_TOKEN
 # CLOUDFLARE_ACCOUNT_ID
 # GITHUB_CLIENT_ID
 # GITHUB_CLIENT_SECRET
 # GITHUB_REDIRECT_URI
 # APP_ORIGIN
+# APP_ENCRYPTION_KEY
