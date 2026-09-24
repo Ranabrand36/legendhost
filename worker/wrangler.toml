@@ -9,7 +9,7 @@ binding = "ASSETS"
 [[d1_databases]]
 binding = "DB"
 database_name = "legend-host"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "0403cdc3-0180-42b1-9e28-60338981b2c8"
 
 # Create a KV namespace and put its ID here for temporary encrypted-at-rest GitHub access tokens.
 [[kv_namespaces]]
