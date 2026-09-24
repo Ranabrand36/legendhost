@@ -1,0 +1,25 @@
+name = "legend-host"
+main = "src/index.js"
+compatibility_date = "2026-09-24"
+
+[assets]
+directory = "../frontend"
+binding = "ASSETS"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "legend-host"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+# Create a KV namespace and put its ID here for temporary encrypted-at-rest GitHub access tokens.
+[[kv_namespaces]]
+binding = "KV"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+# Set secrets with `wrangler secret put`:
+# CLOUDFLARE_API_TOKEN
+# CLOUDFLARE_ACCOUNT_ID
+# GITHUB_CLIENT_ID
+# GITHUB_CLIENT_SECRET
+# GITHUB_REDIRECT_URI
+# APP_ORIGIN
