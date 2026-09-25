@@ -42,7 +42,19 @@ CREATE INDEX IF NOT EXISTS idx_sessions_hash ON sessions(token_hash);
 let schemaPromise;
 async function ensureSchema(env) {
   if (!env.DB) throw new Error("D1 database binding DB is missing.");
-  if (!schemaPromise) schemaPromise = env.DB.exec(SCHEMA_SQL).catch(e => { schemaPromise = null; throw e; });
+  // D1 exec() does not accept this whole multi-statement schema as one SQL statement.
+  // Prepare each semicolon-delimited statement and submit them as a D1 batch.
+  if (!schemaPromise) {
+    const statements = SCHEMA_SQL
+      .split(";")
+      .map(statement => statement.trim())
+      .filter(Boolean)
+      .map(statement => env.DB.prepare(statement));
+    schemaPromise = env.DB.batch(statements).catch(e => {
+      schemaPromise = null;
+      throw e;
+    });
+  }
   await schemaPromise;
 }
 
