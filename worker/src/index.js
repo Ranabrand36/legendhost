@@ -126,12 +126,12 @@ function now(){return new Date().toISOString();}
 function bytesToHex(b){return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
 function b64url(bytes){let s="";for(const b of new Uint8Array(bytes))s+=String.fromCharCode(b);return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/g,"");}
 function hexToBytes(hex){const a=new Uint8Array(hex.length/2);for(let i=0;i<a.length;i++)a[i]=parseInt(hex.slice(i*2,i*2+2),16);return a;}
-async function pbkdf2(password, saltHex, iterations=210000) {
+async function pbkdf2(password, saltHex, iterations=100000) {
   const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(password),"PBKDF2",false,["deriveBits"]);
   const bits=await crypto.subtle.deriveBits({name:"PBKDF2",salt:hexToBytes(saltHex),iterations,hash:"SHA-256"},key,256);
   return bytesToHex(bits);
 }
-async function passwordHash(password){const salt=bytesToHex(crypto.getRandomValues(new Uint8Array(16)));return `pbkdf2$210000$${salt}$${await pbkdf2(password,salt)}`;}
+async function passwordHash(password){const salt=bytesToHex(crypto.getRandomValues(new Uint8Array(16)));return `pbkdf2$100000$${salt}$${await pbkdf2(password,salt)}`;}
 async function passwordVerify(password,stored){const [,it,salt,hash]=String(stored).split("$");if(!it||!salt||!hash)return false;return timingEqual(await pbkdf2(password,salt,Number(it)),hash);}
 function timingEqual(a,b){if(a.length!==b.length)return false;let x=0;for(let i=0;i<a.length;i++)x|=a.charCodeAt(i)^b.charCodeAt(i);return x===0;}
 async function tokenHash(token){return bytesToHex(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(token)));}
