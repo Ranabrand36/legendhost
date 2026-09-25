@@ -1,4 +1,4 @@
-name = "legend-host"
+name = "hosting"
 main = "src/index.js"
 compatibility_date = "2026-09-24"
 
